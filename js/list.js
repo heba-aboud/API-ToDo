@@ -14,25 +14,16 @@ function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 async function fetchTasks() {
-    try {
-        taskList.innerHTML = '<li class="loading">جارِ تحميل المهام...</li>';
-        const res = await fetch(`${API_URL}?limit=10`);
-        if (!res.ok) throw new Error('فشل الاتصال بالـ API');
 
-        const data = await res.json();
-        tasks = data.todos.map(t => ({
-            id: t.id,
-            text: t.todo,
-            completed: t.completed
-        }));
+    const data = await res.json();
+    tasks = data.todos.map(t => ({
+        id: t.id,
+        text: t.todo,
+        completed: t.completed
+    }));
 
-        renderTasks();
-    } catch (err) {
-        console.error(err);
-        taskList.innerHTML = '<li class="error">تعذر تحميل المهام، حاول مرة ثانية.</li>';
-    }
+    renderTasks();
 }
-
 
 function renderTasks() {
     taskList.innerHTML = '';
